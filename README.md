@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HUDUMA GRID - Last Mile OS for Kenya
+### MSME + County Revenue + M-Pesa | Offline-First PWA
 
-## Getting Started
+**Live Demo:** https://huduma-grid.vercel.app  
+**Repository:** https://github.com/kapeisaa-design/huduma-grid
 
-First, run the development server:
+---
 
-```bash
+## 📋 Overview
+HUDUMA GRID is a Last Mile Operating System for Kenyan MSMEs (Mama Mboga, Dukas) and County Governments. It solves revenue collection in low-connectivity areas by enabling offline sales capture that syncs when online.
+
+> Problem: 70% of MSMEs operate offline, County revenue collection is manual.
+> Solution: Offline-first PWA + M-Pesa Daraja + County sync.
+
+## ✨ Features
+
+### 1. Offline-First PWA (WORKING ✅)
+- Works 100% offline using IndexedDB / localStorage
+- Service Worker ready
+- No internet needed for sales entry
+
+### 2. SmartDuka - MSME Dashboard (WORKING ✅)
+- Route: /msme/dashboard
+- Add Item (Nyanya, Unga) + Amount
+- Save Sale offline with synced:false flag
+- View sales today with offline/synced status
+- File: lib/offline-db.ts
+
+### 3. County Revenue Dashboard (WORKING ✅)
+- Route: /county/dashboard
+- View total collections from MSMEs
+- Ready for M-Pesa Daraja integration
+
+### 4. Roadmap
+- [ ] M-Pesa Daraja STK Push
+- [ ] Background sync when online
+- [ ] USSD *384# fallback
+- [ ] County admin analytics
+
+## 🛠️ Tech Stack
+- Next.js 16.4.2 + TypeScript + Tailwind
+- Offline: IndexedDB wrapper (lib/offline-db.ts)
+- PWA + Vercel + 【entity-GitHub¦canonical_name=GitHub】
+
+## 🚀 Getting Started
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+npm run lint
+npm run build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📱 Offline Test
+1. Go to /msme/dashboard
+2. Add sale: Nyanya 100
+3. Turn OFF WiFi
+4. Refresh - sales still there!
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎯 Attachment Objectives Met
+- ✅ Next.js PWA
+- ✅ Offline-first architecture
+- ✅ MSME dashboard working
+- ✅ County dashboard working
+- ✅ Clean build (0 errors)
+- ✅ 【entity-GitHub¦canonical_name=GitHub】 + Vercel deployment
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Author
+Kape Isaa - Attachment 2026
+Built for Kenya's last-mile economy.
