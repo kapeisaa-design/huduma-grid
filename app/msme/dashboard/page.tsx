@@ -9,7 +9,13 @@ export default function Dashboard(){
   const [sales,setSales]=useState<Sale[]>(()=>getOfflineSales())
   const [online, setOnline] = useState(true)
 
-  useEffect(()=>{ setOnline(navigator.onLine); const h = ()=>setOnline(navigator.onLine); window.addEventListener('online',h); window.addEventListener('offline',h); return ()=>{window.removeEventListener('online',h); window.removeEventListener('offline',h)} },[])
+  useEffect(()=>{
+    setOnline(navigator.onLine)
+    const h = ()=>setOnline(navigator.onLine)
+    window.addEventListener('online',h)
+    window.addEventListener('offline',h)
+    return ()=>{window.removeEventListener('online',h); window.removeEventListener('offline',h)}
+  },[])
 
   const handleSale=()=>{
     if(!item||!amount) return
@@ -28,7 +34,7 @@ export default function Dashboard(){
       <div className='max-w-5xl mx-auto space-y-6'>
         <div className='flex justify-between items-center'>
           <div><h1 className='text-3xl font-bold'>SmartDuka</h1><p className='text-zinc-500'>Offline-first • Thika • Swahili Ready</p></div>
-          <div className={px-3 py-1 rounded-full text-sm font-medium }>{online ? '● Online - Syncing' : '○ Offline - 12 sales queued'}</div>
+          <div className={online ? 'px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700' : 'px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-700'}>{online ? '● Online - Syncing' : '○ Offline - Queued'}</div>
         </div>
 
         <div className='grid md:grid-cols-3 gap-4'>
@@ -47,12 +53,16 @@ export default function Dashboard(){
             <button onClick={handleSale} className='flex-1 bg-black text-white p-3 rounded-xl font-medium'>Save Sale (Offline)</button>
             <button onClick={handleMpesa} className='px-6 bg-green-600 text-white p-3 rounded-xl font-medium'>Lipa Levy via M-Pesa</button>
           </div>
-          <p className='text-xs text-zinc-500'>✓ Saved in IndexedDB • Encrypted • Will sync when online • USSD fallback *384* available</p>
+          <p className='text-xs text-zinc-500'>✓ Saved in IndexedDB • Encrypted • Will sync when online • USSD *384* available</p>
         </div>
 
         <div className='bg-white p-6 rounded-2xl border'>
-          <p className='font-semibold mb-3'>Today's Sales - Offline Queue</p>
-          <div className='space-y-2'>{sales.length===0?<p className='text-sm text-zinc-500'>No sales yet - try Swahili voice: Sema Nyanya mia moja</p>:sales.map(s=><div key={s.id} className='flex justify-between border-b py-2 text-sm'><span>{s.item}</span><span>KSh {s.amount}</span><span className={px-2 py-0.5 rounded-full text-xs }>{s.synced?'Synced':'Offline'}</span></div>)}</div>
+          <p className='font-semibold mb-3'>Today Sales</p>
+          <div className='space-y-2'>
+            {sales.length===0 ? <p className='text-sm text-zinc-500'>No sales yet - try Swahili voice button</p> : sales.map(s=>(
+              <div key={s.id} className='flex justify-between border-b py-2 text-sm'><span>{s.item}</span><span>KSh {s.amount}</span><span className={s.synced ? 'px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700' : 'px-2 py-0.5 rounded-full text-xs bg-amber-100 text-amber-700'}>{s.synced ? 'Synced' : 'Offline'}</span></div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
