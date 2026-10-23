@@ -1,7 +1,7 @@
 ﻿'use client'
 import { useState, useEffect } from 'react'
-import { saveSaleOffline, getOfflineSales, Sale } from '../../lib/offline-db'
-import VoiceSale from '../../components/VoiceSale'
+import { saveSaleOffline, getOfflineSales, Sale } from '@/lib/offline-db'
+import VoiceSale from '@/components/VoiceSale'
 
 export default function Dashboard(){
   const [item,setItem]=useState('')
@@ -34,35 +34,27 @@ export default function Dashboard(){
       <div className='max-w-5xl mx-auto space-y-6'>
         <div className='flex justify-between items-center'>
           <div><h1 className='text-3xl font-bold'>SmartDuka</h1><p className='text-zinc-500'>Offline-first • Thika • Swahili Ready</p></div>
-          <div className={online ? 'px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700' : 'px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-700'}>{online ? '● Online - Syncing' : '○ Offline - Queued'}</div>
+          <div className={online ? 'px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700' : 'px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-700'}>{online ? '● Online' : '○ Offline'}</div>
         </div>
-
         <div className='grid md:grid-cols-3 gap-4'>
           <div className='bg-white p-6 rounded-2xl border'><p className='text-sm text-zinc-500'>Sales Today</p><p className='text-2xl font-bold'>{sales.length}</p></div>
           <div className='bg-white p-6 rounded-2xl border'><p className='text-sm text-zinc-500'>Revenue</p><p className='text-2xl font-bold'>KSh {sales.reduce((a,b)=>a+b.amount,0)}</p></div>
-          <div className='bg-white p-6 rounded-2xl border'><p className='text-sm text-zinc-500'>Sync Queue</p><p className='text-2xl font-bold'>{sales.filter(s=>!s.synced).length} pending</p></div>
+          <div className='bg-white p-6 rounded-2xl border'><p className='text-sm text-zinc-500'>Queue</p><p className='text-2xl font-bold'>{sales.filter(s=>!s.synced).length} pending</p></div>
         </div>
-
         <div className='bg-white p-6 rounded-2xl border shadow-sm space-y-4'>
-          <div className='flex justify-between items-center'><p className='font-semibold'>Record Sale - Works Offline</p><VoiceSale onResult={(t)=>setItem(t)} /></div>
+          <div className='flex justify-between items-center'><p className='font-semibold'>Record Sale</p><VoiceSale onResult={(t)=>setItem(t)} /></div>
           <div className='grid md:grid-cols-2 gap-3'>
-            <input className='border p-3 rounded-xl' placeholder='Item e.g Nyanya, Viazi' value={item} onChange={e=>setItem(e.target.value)} />
-            <input className='border p-3 rounded-xl' placeholder='Amount KSh' type='number' value={amount} onChange={e=>setAmount(e.target.value)} />
+            <input className='border p-3 rounded-xl' placeholder='Item e.g Nyanya' value={item} onChange={e=>setItem(e.target.value)} />
+            <input className='border p-3 rounded-xl' placeholder='Amount' type='number' value={amount} onChange={e=>setAmount(e.target.value)} />
           </div>
           <div className='flex gap-3'>
-            <button onClick={handleSale} className='flex-1 bg-black text-white p-3 rounded-xl font-medium'>Save Sale (Offline)</button>
-            <button onClick={handleMpesa} className='px-6 bg-green-600 text-white p-3 rounded-xl font-medium'>Lipa Levy via M-Pesa</button>
+            <button onClick={handleSale} className='flex-1 bg-black text-white p-3 rounded-xl'>Save Offline</button>
+            <button onClick={handleMpesa} className='px-6 bg-green-600 text-white p-3 rounded-xl'>Lipa via M-Pesa</button>
           </div>
-          <p className='text-xs text-zinc-500'>✓ Saved in IndexedDB • Encrypted • Will sync when online • USSD *384* available</p>
         </div>
-
         <div className='bg-white p-6 rounded-2xl border'>
           <p className='font-semibold mb-3'>Today Sales</p>
-          <div className='space-y-2'>
-            {sales.length===0 ? <p className='text-sm text-zinc-500'>No sales yet - try Swahili voice button</p> : sales.map(s=>(
-              <div key={s.id} className='flex justify-between border-b py-2 text-sm'><span>{s.item}</span><span>KSh {s.amount}</span><span className={s.synced ? 'px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700' : 'px-2 py-0.5 rounded-full text-xs bg-amber-100 text-amber-700'}>{s.synced ? 'Synced' : 'Offline'}</span></div>
-            ))}
-          </div>
+          <div className='space-y-2'>{sales.length===0 ? <p className='text-sm text-zinc-500'>No sales yet</p> : sales.map(s=><div key={s.id} className='flex justify-between border-b py-2 text-sm'><span>{s.item}</span><span>KSh {s.amount}</span><span className={s.synced ? 'px-2 py-0.5 rounded-full text-xs bg-green-100' : 'px-2 py-0.5 rounded-full text-xs bg-amber-100'}>{s.synced ? 'Synced' : 'Offline'}</span></div>)}</div>
         </div>
       </div>
     </div>
